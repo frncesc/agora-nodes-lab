@@ -157,7 +157,7 @@ function reactor_do_title_logo()
                             <?php
                         } else { ?>
                             <div class='box-content-slider'>
-                                <?php do_action('slideshow_deploy', reactor_option('carrusel')); ?>
+                                <?php do_action('slideshow_reloaded', reactor_option('carrusel')); ?>
                             </div>
                         <?php }
                     }
@@ -171,7 +171,7 @@ function reactor_do_title_logo()
                         <?php
                     } else { ?>
                         <div class='box-content-slider'>
-                            <?php do_action('slideshow_deploy', reactor_option('carrusel')); ?>
+                            <?php do_action('slideshow_reloaded', reactor_option('carrusel')); ?>
                         </div>
                     <?php }
                 }?>
