@@ -38,6 +38,19 @@
 
 	</div>
 
+	<?php
+		
+		// XTEC ************ AFEGIT - get slides from external albums
+		// 2014.10.22 @jmeler - 2016.04.22 @sarjona - 2020.02.06 @jmeler
+		
+		echo '<hr><p style="color:green; font-weight:bold">Si voleu mostrar més de 10 diapositives us recomanem carregar-les des d\'un àlbum extern:</p>
+		<strong>Àlbum</strong> (<a target="_blank" href="https://sites.google.com/a/xtec.cat/ajudaxtecblocs/insercio-de-continguts/creacio-de-galeries-d-imatges-amb-album">extensió</a>):
+		<textarea name="album_extension">'.get_post_meta( $post->ID, "album_extension", true ).'</textarea>';
+		
+		//************ FI 
+
+	?>
+
 	<?php SlideshowReloadedMain::outputView('SlideshowReloadedSlideshowSlide' . DIRECTORY_SEPARATOR . 'backend_templates.php') ?>
 
 <?php endif ?>

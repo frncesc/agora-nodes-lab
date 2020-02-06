@@ -246,6 +246,51 @@ class SlideshowReloadedSlideshowSettingsHandler {
 			$slides = self::$slides[$slideshowId];
 		}
 
+		// XTEC ************ AFEGIT - Get slides from picasa or google photos or parse album extension content
+		// 2014.10.22 @jmeler && @frncesc - 2015.12.21 @nacho && @aginard - 2016.04.22 @sarjona - 2020.02.06 @jmeler
+
+		// Get photos from album extension list or mosaic
+		$album_extension = get_post_meta($slideshowId, 'album_extension', true);
+		if ($album_extension) {
+			foreach(preg_split("/((\r?\n)|(\r\n?))/", $album_extension) as $entry){
+				$entry = trim($entry);
+				if (!empty($entry)) {
+					if (strpos($entry, 'http') === 0) {
+						// List (Image URL)
+						$slides[] = array(
+							"url"       => $entry,
+							"urlTarget" => $entry,
+							"type"      => "image",
+						);
+					} else if (strpos($entry, '<a href') === 0) {
+						// Mosaic (HTML code)
+						$DOM = new DOMDocument;
+						// set error level
+						$internalErrors = libxml_use_internal_errors(true);
+						// load HTML
+						$DOM->loadHTML($entry);
+						// Restore error level
+						libxml_use_internal_errors($internalErrors);
+
+						$items = $DOM->getElementsByTagName('a');
+						foreach ($items as $item) {
+							$url = $item->getAttributeNode('href')->nodeValue;
+						}
+						$items = $DOM->getElementsByTagName('img');
+						foreach ($items as $item) {
+							$img = $item->getAttributeNode('src')->nodeValue;
+						}
+						$slides[] = array(
+							"url"       => $img,
+							"urlTarget" => $url,
+							"type"      => "image",
+						);
+
+					}
+				}
+			}
+		}
+
 		// Sort slides by order ID
 		if (is_array($slides)) {
 			ksort($slides);
@@ -307,6 +352,17 @@ class SlideshowReloadedSlideshowSettingsHandler {
 			$oldStyleSettings,
 			$newPostStyleSettings
 		);
+
+		// 2014.10.22 @jmeler - 2016.04.22 @sarjona - 2020.02.06 @jmeler
+		$album_extension = isset($_POST["album_extension"])?$_POST["album_extension"]:'';
+
+		print_r($album_extension);
+
+		// Only save textarea information if is valid
+		if (empty($album_extension) || strpos($album_extension, 'http') === 0 || strpos($album_extension, '<a href') === 0) {
+			update_post_meta($postId, "album_extension", $album_extension);
+			
+		}
 
 		// Save settings
 		update_post_meta($postId, self::$settingsKey, $newSettings);
