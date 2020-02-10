@@ -35,15 +35,17 @@ function rss_box($rss) {
 		endif;
 	
 		// Display the container
-		echo '<div class="rss-widget">';
-		echo '<strong>'.$rss_title.'</strong>';
-		echo '<hr style="border: 0; background-color: #DFDFDF; height: 1px;">';
+		if (isset ($rss_title) ) {
+			echo '<div class="rss-widget">';
+			echo '<strong>' . $rss_title . '</strong>';
+			echo '<hr style="border: 0; background-color: #DFDFDF; height: 1px;">';
+		}
 		
 		// Starts items listing within <ul> tag
 		echo '<ul>';
 		
 		// Check items
-		if ( $maxitems == 0 ) {
+		if ( isset($maxitems) == 0 ) {
 			echo '<li>'.__( 'No item', 'rc_mdm').'.</li>';
 		} else {
 			// Loop through each feed item and display each item as a hyperlink.
