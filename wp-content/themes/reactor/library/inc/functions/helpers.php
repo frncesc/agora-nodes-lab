@@ -426,7 +426,7 @@ function get_dynamic_sidebar( $index = 1 ) {
 function reactor_change_sticky_class( $classes ) {
 	$count = count( $classes );
 	for ( $i=0; $i < $count; $i++ ) {
-		if ( $classes[$i] == 'sticky' ) {
+		if ( isset($classes[$i]) == 'sticky' ) {
 			$classes[$i] = 'sticky-post';
 			$classes[] = 'featured';
 		}
