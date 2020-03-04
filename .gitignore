@@ -28,3 +28,6 @@ wp-content/cache/
 wp-content/upgrade/
 wp-content/uploads/*
 wp-content/wp-cache-config.php
+# Main config file
+/wp-config.php
+
